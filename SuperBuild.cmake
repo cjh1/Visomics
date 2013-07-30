@@ -66,7 +66,10 @@ include(CMakeExternals/VTK.cmake)
 include(CMakeExternals/QtPropertyBrowser.cmake)
 include(CMakeExternals/VisomicsData.cmake)
 include(CMakeExternals/RExternalPackages.cmake)
+include(CMakeExternals/protobuf.cmake)
+include(CMakeExternals/ProtoCall.cmake)
 #include(CMakeExternals/CTK.cmake)
+
 
 #-----------------------------------------------------------------------------
 # Set superbuild boolean args
@@ -133,6 +136,8 @@ ExternalProject_Add(${proj}
     -DQT_QMAKE_EXECUTABLE:PATH=${QT_QMAKE_EXECUTABLE}
     # CTK
     #-DCTK_DIR:PATH=${CTK_DIR}
+    -Dprotobuf_DIR:PATH=${protobuf_DIR}
+    -DProtoCall_DIR:PATH=${ProtoCall_DIR}
   DOWNLOAD_COMMAND ""
   INSTALL_COMMAND ""
   DEPENDS
