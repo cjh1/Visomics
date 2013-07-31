@@ -124,40 +124,30 @@ void voRemoteAnalysisService::execute(const AnalysisRequest* input,
   m_RCalc->SetRscript(input->script().c_str());
   m_RCalc->Update();
 
-  vtkMultiBlockDataSet *results = vtkMultiBlockDataSet::New ();
-
+  vtkMultiBlockDataSet *results;
 
   // Get output(s) from R
   if (multiInput)
     {
-    vtkMultiPieceDataSet * outData =
-      vtkMultiPieceDataSet::SafeDownCast(m_RCalc->GetOutput());
-    if(!outData)
+    results =
+      vtkMultiBlockDataSet::SafeDownCast(m_RCalc->GetOutput());
+    if(!results)
       {
       output->setErrorString("Fatal error running analysis");
       done->Run();
       return;
       }
 
-    results->SetNumberOfBlocks(outData->GetNumberOfPieces());
-    iter = outData->NewIterator();
-    int index = 0;
-    for (iter->InitTraversal(); !iter->IsDoneWithTraversal();
-         iter->GoToNextItem())
-      {
-      results->SetBlock(index, iter->GetCurrentDataObject());
-      ++index;
-      }
-    iter->Delete();
+    output->mutable_outputs()->set(results);
     }
   else
     {
+    results = vtkMultiBlockDataSet::New();
     results->SetNumberOfBlocks(1);
     vtkDataObject *outDataObj = m_RCalc->GetOutput();
     results->SetBlock(0, outDataObj);
+    output->mutable_outputs()->set_allocated(results);
     }
-
-  output->mutable_outputs()->set_allocated(results);
 
   // Send result to client
   done->Run();

@@ -1,6 +1,14 @@
 
 PROJECT(VisomicsBase)
 
+protocallc(_protocall_common_source
+  _protocall_service_source
+  _protocall_proxy_source
+  _protocall_include_dir
+  "${CMAKE_SOURCE_DIR}/AnalysisServer/RemoteAnalysis.proto")
+
+include_directories(${_protocall_include_dir})
+
 SET(KIT_SRCS
   Analysis/voFoldChange.cpp
   Analysis/voFoldChange.h
@@ -42,7 +50,10 @@ SET(KIT_SRCS
   Analysis/voCompareTrees.h
   Analysis/voTreeDropTipWithoutData.cpp
   Analysis/voTreeDropTipWithoutData.h
-
+  Analysis/voRemoteCustomAnalysis.cpp
+  Analysis/voRemoteCustomAnalysis.h
+  ${_protocall_common_source}
+  ${_protocall_proxy_source}
   Normalization/voNormalization.h
   Normalization/voLog2.cpp
   Normalization/voQuantile.cpp
@@ -152,6 +163,7 @@ SET(KIT_MOC_SRCS
   Analysis/voCustomAnalysisParameterField.h
   Analysis/voTreeDropTip.h
   Analysis/voTreeDropTipWithoutData.h
+  Analysis/voRemoteCustomAnalysis.h
 
 
   Views/voCorrelationGraphView.h
@@ -254,7 +266,7 @@ SET(${PROJECT_NAME}_LINK_LIBRARIES
   )
 TARGET_LINK_LIBRARIES(
   ${libname}
-  ${${PROJECT_NAME}_LINK_LIBRARIES}
+  ${${PROJECT_NAME}_LINK_LIBRARIES} protobuf
   )
 
 # Install rules
