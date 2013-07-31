@@ -1,0 +1,25 @@
+import "protocall.proto";
+
+message AnalysisRequest {
+  // The inputs stored in a multiblock
+  optional vtk.vtkMultiBlockDataSet inputs = 1;
+  // The names of the inputs
+  repeated string inputNames = 2;
+  // The names of the outputs
+  repeated string outputNames = 3;
+  // The VTK types of the outputs
+  repeated int32 outputTypes = 4;
+  // The R script with the parameters inserted
+  optional string script = 5;
+}
+
+message AnalysisResponse {
+  // The multiblock containing the output of the analysis
+  optional vtk.vtkMultiBlockDataSet outputs = 1;
+}
+
+
+service RemoteAnalysisService {
+  // Execute the R analysis
+  rpc execute(AnalysisRequest) returns(AnalysisResponse);
+}
