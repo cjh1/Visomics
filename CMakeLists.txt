@@ -118,6 +118,7 @@ set(VTK_LIBRARIES
     vtkRenderingFreeTypeOpenGL # remove this eventually; when VTK is fixed
     vtkViewsContext2D
     vtkViewsQt
+    vtkParallelCore
     )
 
 #-----------------------------------------------------------------------------
@@ -265,11 +266,24 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 #-----------------------------------------------------------------------------
 ADD_SUBDIRECTORY(ThirdParty/CTK)
 INCLUDE_DIRECTORIES(ThirdParty/CTK)
+#-----------------------------------------------------------------------------
+# ProtoCall for remote custom analysis
+
+find_package(protobuf REQUIRED NO_MODULE)
+include_directories(SYSTEM ${protobuf_INCLUDE_DIRS})
+
+find_package(ProtoCall REQUIRED NO_MODULE)
+include_directories(SYSTEM ${ProtoCall_INCLUDE_DIRS})
+
+find_package(VTK COMPONENTS vtkParallelCore)
+set_property(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS ${VTK_DEFINITIONS})
+include_directories(${VTK_INCLUDE_DIRS})
+
+add_subdirectory(AnalysisServer)
 
 #-----------------------------------------------------------------------------
 ADD_SUBDIRECTORY(Base)
 ADD_SUBDIRECTORY(Application)
-
 #-----------------------------------------------------------------------------
 # R scripts
 #
