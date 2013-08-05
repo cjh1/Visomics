@@ -3,7 +3,6 @@
 // ProtoCall headers
 #include "RemoteAnalysisService_Dispatcher.pb.h"
 #include <google/protobuf/stubs/common.h>
-#include <protocall/runtime/vtkcommunicatorchannel.h>
 #include <protocall/runtime/servicemanager.h>
 #include <protocall/runtime/vtkcommunicatorchannel.h>
 
