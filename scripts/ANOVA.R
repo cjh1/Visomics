@@ -1,8 +1,13 @@
+write(typeof(input_table), stderr())
+write(length(input_table), stderr())
+write(input_table[[1]], stderr())
+write(input_table[[2]], stderr())
+write(typeof(input_table[[3]]), stderr())
 
-sample1Range <- c(1,2,3,5)
-sample2Range <- c(1,3,5,7)
+sample1Range <- sample1_range#c(1,2,3,5)
+sample2Range <- sample2_range#c(1,3,5,7)
 
-input_table <- matrix(seq(1:24), 3)
+#input_table <- matrix(seq(1:24), 3)
 
 filter <- function(mat, columns) {
   sample <- matrix(nrow=nrow(mat), ncol=length(columns))
@@ -14,6 +19,8 @@ filter <- function(mat, columns) {
 
   return(sample)
 }
+
+print(input_table)
 
 sample1Array <- filter(input_table, sample1Range)
 sample2Array <- filter(input_table, sample2Range)
