@@ -12,7 +12,6 @@
     <parameter name="sample1_range" type="String">
       <title>Sample Group 1</title>
       <description>&lt;dl&gt;
-                 &lt;dt&gt;&lt;b&gt;Sample Group 1 &lt;/b&gt;:&lt;/dt&gt;
                  &lt;dd&gt;A group of Experiments, specified by a range and/or list of column letters.&lt;br&gt;
                  &lt;u&gt;The groups MUST both be the same size&lt;/u&gt;, as only a balanced test is performed&lt;/dd&gt;
                  &lt;/dl&gt;</description>
@@ -21,7 +20,6 @@
     <parameter name="sample2_range" type="String">
      <title>Sample Group 2</title>
       <description>&lt;dl&gt;
-                 &lt;dt&gt;&lt;b&gt;Sample Group 2&lt;/b&gt;:&lt;/dt&gt;
                  &lt;dd&gt;A group of Experiments, specified by a range and/or list of column letters.&lt;br&gt;
                  &lt;u&gt;The groups MUST both be the same size&lt;/u&gt;, as only a balanced test is performed&lt;/dd&gt;
                  &lt;/dl&gt;</description>
