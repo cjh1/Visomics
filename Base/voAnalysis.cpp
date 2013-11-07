@@ -898,6 +898,47 @@ QtVariantProperty*  voAnalysis::addStringParameter(const QString& id, const QStr
 }
 
 // --------------------------------------------------------------------------
+QList<int> voAnalysis::rangeParameter(const QString& id)const
+{
+  QtVariantProperty * prop = this->parameter(id);
+  Q_ASSERT(prop);
+
+  QList<int> range;
+
+  foreach(const QVariant& variant, prop->value().toList()) {
+    range.push_back(variant.toInt());
+  }
+
+  return range;
+}
+
+// --------------------------------------------------------------------------
+QtVariantProperty*  voAnalysis::addRangeParameter(const QString& id, const QString& label,
+                                                  const QList<int>& value)
+{
+  Q_ASSERT(!id.isEmpty());
+  Q_ASSERT(!label.isEmpty());
+
+  Q_D(voAnalysis);
+
+  QtVariantProperty * param = d->VariantManager->addProperty(QVariant::List, label);
+
+  param->setPropertyId(id);
+
+  QList<QVariant> range;
+
+  foreach(int i, value) {
+    QVariant v(i);
+    range.push_back(v);
+  }
+
+  param->setValue(range);
+
+  return param;
+}
+
+
+// --------------------------------------------------------------------------
 vtkTree* voAnalysis::treeParameter(const QString& label)const
 {
   QString treeName = this->enumParameter(label);
