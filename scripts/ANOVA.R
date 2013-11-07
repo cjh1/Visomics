@@ -1,32 +1,22 @@
-write(typeof(input_table), stderr())
-write(length(input_table), stderr())
-write(input_table[[1]], stderr())
-write(input_table[[2]], stderr())
-write(typeof(input_table[[3]]), stderr())
+sample1Range <- c(2,3)
+sample2Range <- c(3,4)
 
-sample1Range <- sample1_range#c(1,2,3,5)
-sample2Range <- sample2_range#c(1,3,5,7)
+#input_table <- list(c("A", "B", "C", "D"), as.double(c(1,2,3,4)), as.double(c(1,2,3,4)),as.double(c(1,2,3,4)),as.double(c(1,2,3,4)))
 
-#input_table <- matrix(seq(1:24), 3)
+#write('test', stderr())
 
-filter <- function(mat, columns) {
-  sample <- matrix(nrow=nrow(mat), ncol=length(columns))
-  index <- 1
-  for(col in columns) {
-    sample[,index] <- mat[,col]
-    index <- index + 1
+filter <- function(columnList, columnIndexes) {
+  write(typeof(columnList), stderr())
+  sample <- matrix(nrow=length(columnList[[1]]), ncol=0)
+  for(i in columnIndexes) {
+    sample <- cbind(sample,  columnList[[i]])
   }
 
   return(sample)
 }
 
-print(input_table)
-
 sample1Array <- filter(input_table, sample1Range)
 sample2Array <- filter(input_table, sample2Range)
-
-ANOVA_table = matrix(nrow=0, ncol=1)
-ANOVA_volcano = matrix(nrow=0, ncol=1)
 
 errValue<-0
 pValue <- sapply( seq(length=nrow(sample1Array)),
@@ -37,18 +27,9 @@ FCFun <- function(x){
 if(!is.finite(x)){RerrValue <<- 2; return(-NaN)}
 if (x<0) {return(-1/(2^x))} else {return(2^x)}}
 foldChange<-sapply(log2FC, FCFun)
+print(pValue)
+ANOVA_table <- list("lizard"=input_table[[1]], "PValues"=sample1Array)
 
-ANOVA_table
-colnames(ANOVA_table) <- c("P-Value")
-for (value in pValue) {
-  ANOVA_table <- rbind(ANOVA_table, value)
-} 
+ANOVA_volcano <- list("lizard"=input_table[[1]])#,"FFold Change (Sample 1 -> Sample 2)"=foldChange, "Test"=foldChange)
 
-for (value in foldChange) {
-  ANOVA_volcano <- rbind(ANOVA_volcano, value)
-}
 
-colnames(ANOVA_volcano) <- c("Fold Change (Sample 1 -> Sample 2)")
-
-print(ANOVA_table)
-print(ANOVA_volcano)

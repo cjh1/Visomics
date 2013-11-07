@@ -1,6 +1,5 @@
 <analysis name="ANOVA">
   <inputs>
-    <input name="input_tree" type="Tree"/>
     <input name="input_table" type="Table"/>
   </inputs>
   <outputs>
@@ -9,7 +8,7 @@
             viewType="voVolcanoView"/>
   </outputs>
   <parameters>
-    <parameter name="sample1_range" type="String">
+    <parameter name="sample1_range" type="Range">
       <title>Sample Group 1</title>
       <description>&lt;dl&gt;
                  &lt;dd&gt;A group of Experiments, specified by a range and/or list of column letters.&lt;br&gt;
@@ -17,7 +16,7 @@
                  &lt;/dl&gt;</description>
       <default>A-C,F</default>
     </parameter>
-    <parameter name="sample2_range" type="String">
+    <parameter name="sample2_range" type="Range">
      <title>Sample Group 2</title>
       <description>&lt;dl&gt;
                  &lt;dd&gt;A group of Experiments, specified by a range and/or list of column letters.&lt;br&gt;
