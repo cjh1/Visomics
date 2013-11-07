@@ -17,6 +17,7 @@ raise_exception_error_handler.CallDataType = "string0"
 
 class vtkModuleExceptionRaisingWrapper(types.ModuleType):
     def __getattribute__(self, cls_name):
+        # TODO shouldn't this me vtkModuleExceptionRaisingWrapper
         cls = super(types.ModuleType, self).__getattribute__(cls_name)
 
         if cls_name.startswith('vtk'):
