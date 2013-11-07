@@ -193,15 +193,19 @@ bool voRemoteCustomAnalysis::execute()
       }
     else if (type == "Range")
       {
+      QList<int> range;
+
+      if (!voUtils::parseRangeString(this->stringParameter(name), range, true))
+        qDebug() << "Range error";
+
       QStringList list;
-      foreach(int i, this->rangeParameter(name))
+      foreach(int i, range)
         {
-        list << QString::number(i);
+        list << QString::number(i+1);
         }
-      parameterValue = list.join(",");
+       QString rangeString = list.join(",");
 
-      qDebug() << parameterValue;
-
+      parameterValue = QString("c(%1)").arg(rangeString);
       }
     else
       {
@@ -350,12 +354,15 @@ void voRemoteCustomAnalysis::handleResultReply(QNetworkReply *reply)
     std::string type = output["type"].asString();
     QString name = QString::fromStdString(output["name"].asString());
     std::string inputString = output["data"].asString();
+    QByteArray raw = QByteArray::fromRawData(inputString.c_str(), inputString.size());
+    QByteArray binary = QByteArray::fromBase64(raw);
 
     if (type == "Table")
       {
+
       vtkNew<vtkTableReader> reader;
+      reader->SetBinaryInputString(binary.data(), binary.size());
       reader->SetReadFromInputString(1);
-      reader->SetInputString(inputString);
       reader->Update();
 
       this->setOutput(name,
@@ -369,7 +376,7 @@ void voRemoteCustomAnalysis::handleResultReply(QNetworkReply *reply)
       reader->Update();
 
       this->setOutput(name,
-              new voInputFileDataObject(name, reader->GetOutput()));
+              new voDataObject(name, reader->GetOutput()));
       }
     else
       {

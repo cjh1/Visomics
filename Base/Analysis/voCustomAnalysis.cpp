@@ -145,7 +145,6 @@ void voCustomAnalysis::setParameterInformation()
     QVariant minValue(VTK_INT_MIN);
     QVariant maxValue(VTK_INT_MAX);
     QVariant defaultValue(0);
-    QList<int> range;
 
     // read fields for this parameter
     foreach(voCustomAnalysisParameterField *field, parameter->fields())
@@ -171,14 +170,9 @@ void voCustomAnalysis::setParameterInformation()
         }
       else if (field->name() == "default")
         {
-        if (type == "String")
+        if (type == "String" || type == "Range")
           {
           defaultValue = QVariant(field->value());
-          }
-        else if (type == "Range")
-          {
-          if (!voUtils::parseRangeString(field->value(), range, true))
-            qDebug() << "Range error";
           }
         else
           {
@@ -204,7 +198,7 @@ void voCustomAnalysis::setParameterInformation()
         parameter->name(), parameterTitle,
         minValue.toDouble(), maxValue.toDouble(), defaultValue.toDouble());
       }
-    else if (type == "String")
+    else if (type == "String" || type == "Range")
       {
       custom_parameters << this->addStringParameter(
         parameter->name(), parameterTitle, defaultValue.toString());
@@ -213,11 +207,6 @@ void voCustomAnalysis::setParameterInformation()
       {
       custom_parameters << this->addEnumParameter(
         parameter->name(), parameterTitle, enum_options);
-      }
-    else if (type == "Range")
-      {
-      custom_parameters << this->addRangeParameter(
-        parameter->name(), parameterTitle, range);
       }
     else
       {
