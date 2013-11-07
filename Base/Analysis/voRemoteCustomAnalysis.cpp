@@ -154,7 +154,7 @@ bool voRemoteCustomAnalysis::execute()
   taskRequest["outputs"] = Json::Value(Json::arrayValue);
   foreach(voCustomAnalysisData *output, this->information()->outputs())
     {
-
+    qDebug() << "out: " << output;
     Json::Value &outputValue = taskRequest["outputs"][Json::ArrayIndex(index)];
 
     if (output->type() != "Table" && output->type() != "Tree")
@@ -190,6 +190,18 @@ bool voRemoteCustomAnalysis::execute()
     else if (type == "String")
       {
       parameterValue = QString("\"%1\"").arg(this->stringParameter(name));
+      }
+    else if (type == "Range")
+      {
+      QStringList list;
+      foreach(int i, this->rangeParameter(name))
+        {
+        list << QString::number(i);
+        }
+      parameterValue = list.join(",");
+
+      qDebug() << parameterValue;
+
       }
     else
       {

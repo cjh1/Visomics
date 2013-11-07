@@ -198,6 +198,11 @@ protected:
   void addTreeParameter(const QString& label);
   vtkTree* treeParameter(const QString& label)const;
 
+  QList<int> rangeParameter(const QString& id)const;
+  QtVariantProperty*  addRangeParameter(const QString& id, const QString& label,
+                                         const QList<int>& value);
+
+
 protected:
   QScopedPointer<voAnalysisPrivate> d_ptr;
 
